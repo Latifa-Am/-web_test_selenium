@@ -24,5 +24,12 @@ def test_web_link(webFix):
     title = webFix.title
     assert 'About' in title
 
+def test_web_links(webFix):
+    links = webFix.find_elements(By.TAG_NAME, "a")
+    for link in links:
+        href = link.get_attribute("href")
+        assert 'mozilla' in href or 'mastodon' in href or 'spotify' in href\
+        or 'twitter' in href or 'instagram' in href or 'youtube' in href
+        
 """def test_add():
     assert 4 + 2 == 6"""
