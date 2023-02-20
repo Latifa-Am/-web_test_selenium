@@ -30,6 +30,22 @@ def test_web_links(webFix):
         href = link.get_attribute("href")
         assert 'mozilla' in href or 'mastodon' in href or 'spotify' in href\
         or 'twitter' in href or 'instagram' in href or 'youtube' in href
-        
+
+def test_account_form(webFix):
+    webFix.find_element(By.LINK_TEXT, "Explore Firefox").click()
+    try:
+        element = wait(webFix, 3).until(EC.presence_of_element_located(By.CLASS_NAME, "fxa-email-field-container"))
+    except Exception as ex:
+        print(ex)
+    text_input = webFix.find_element(By.ID, "fxa-email-field")
+    text_input.send_keys("example@gmail.com")
+    webFix.find_element(By.ID, "fxa-email-form-submit").click()
+    prefillEmail = "none"
+    try:
+        prefillEmail = wait(webFix, 3).until(EC.presence_of_element_located((By.ID, "prefillEmail"))).text
+    except Exception as ex:
+        print(ex)
+    assert "example@gmail.com" in prefillEmail
+
 """def test_add():
     assert 4 + 2 == 6"""
